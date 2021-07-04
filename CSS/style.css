@@ -1,0 +1,96 @@
+* {
+    box-sizing: border-box;
+    
+}
+
+#sheet {
+    /* border: solid tomato; */
+    text-align: center;
+    font-family: sans-serif;
+    height: 57rem;
+    user-select: none;
+    width: 90%;
+    margin: 3rem auto;
+    /* background-image: url(https://images.squarespace-cdn.com/content/v1/5bfe852a96d4555a304afa99/1552653772344-W50SCC925LP1JD9WTPWZ/Background+Colour+Purist+Blue.jpg?format=2500w); */
+    box-shadow: 0px 5px 12px #00000047;
+}
+
+h1 {
+    padding-top: 3rem;
+font-size: 2.5pc;
+font-weight: bold;
+color: #00000091;
+
+}
+
+#Images {
+    /* border: solid tomato; */
+    height:17rem;
+    width: 65rem;
+   margin: 3rem auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.imgc {
+    width: 20rem;
+    height: 15rem;
+    box-shadow: 0px 5px 12px #00000047;
+    transition: 0.5s;
+}
+
+.imgc:hover {
+    width: 22rem;
+    height: 17rem;
+    box-shadow: 5px 17px 20px #00000047;
+}
+
+button {
+    background-color: hsl(44, 70%, 45%);
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition: 0.7s;
+  
+
+}
+
+button:hover {
+    background-color: rgb(122, 95, 20); 
+    padding: 20px 37px;
+    font-size: 20px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+#subtitle {
+    padding-top: 3rem;
+font-size: 1.5pc;
+font-weight: bold;
+color: #00000091;
+}
+
+ul {
+    /* border:  solid tomato; */
+    width: 85%;
+    height: 17rem;
+    margin: 1rem auto;
+    -moz-column-count: 2;
+    -moz-column-gap: 5px;
+    -webkit-column-count: 2;
+    -webkit-column-gap: 5px;
+    column-count: 2;
+    column-gap: 5px;
+    box-shadow: 0px 5px 12px #00000047;
+
+}
+
+ul li {
+    /* display: inline-block; */
+    padding-top: 0.5rem;
+    color: #e23c1f;
+
+}
