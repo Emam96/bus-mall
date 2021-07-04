@@ -36,7 +36,7 @@ color: #00000091;
     width: 20rem;
     height: 15rem;
     box-shadow: 0px 5px 12px #00000047;
-    transition: 0.5s;
+    transition: 0.3s;
 }
 
 .imgc:hover {
@@ -54,7 +54,7 @@ button {
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  transition: 0.7s;
+  transition: 0.2s;
   
 
 }
