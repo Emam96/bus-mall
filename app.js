@@ -124,3 +124,13 @@ function clicks(event) {
   }
   round++;
 }
+
+// let emam; 
+// let emamfun = function () {
+//    let emam = 2;
+//    console.log(emam);
+// }
+
+// console.log(emam);
+// emamfun();
+// console.log(emam);
