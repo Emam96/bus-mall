@@ -22,6 +22,28 @@ let productSrs = [
   "wine-glass.jpg",
 ];
 
+let productNames = [
+  "bag",
+  "banana",
+  "bathroom",
+  "boots",
+  "breakfast",
+  "bubblegum",
+  "chair",
+  "cthulhu",
+  "dog-duck",
+  "dragon",
+  "pen",
+  "pet-sweep",
+  "scissors",
+  "shark",
+  "sweep",
+  "tauntaun",
+  "unicorn",
+  "water-can",
+  "wine-glass",
+];
+
 let sheet = document.getElementById("sheet");
 let data = document.getElementById("Data");
 let subtitle = document.getElementById("subtitle");
@@ -32,14 +54,20 @@ let centerImg = document.getElementById("Center");
 let rightImg = document.getElementById("Right");
 
 const btn2 = document.querySelector("button");
-
+let viewsAr = [];
+let votesAr = [];
 let products = [];
+let    nxtImg = [];
 let round = 1;
 let maxRounds = 25;
 
 let Left;
 let Center;
-let right;
+let Right;
+
+let nxtleft;
+let nxtCenter;
+let nxtRight;
 
 function Product(name) {
   // constructor
@@ -62,27 +90,74 @@ function randomize() {
   return Math.floor(Math.random() * products.length);
 }
 
+
+
+
 function renderAlbum() {
   // photo screen
 
   Left = randomize();
   Center = randomize();
-  right = randomize();
-  while (Left === Center || Center === right || Left === right) {
+  Right = randomize();
+
+  
+   
+
+  while (Center === Right || Left === Center || Left === Right || nxtImg.includes(Left) || nxtImg.includes(Center) || nxtImg.includes(Right) ) {
     Left = randomize();
     Center = randomize();
+    Right = randomize();
   }
+
+   nxtImg = [];
+
+  nxtImg.push(Left);
+  nxtImg.push(Center);
+  nxtImg.push(Right);
+
+
+  // while (
+  //   nxtleft === Left ||
+  //   nxtleft === Center ||
+  //   nxtleft === Right ||
+  //   nxtCenter === Left ||
+  //   nxtCenter === Center ||
+  //   nxtCenter === Right ||
+  //   nxtRight === Left ||
+  //   nxtRight === Center ||
+  //   nxtRight === Right
+  // ) {
+  //   Left = randomize();
+  //   Center = randomize();
+  //   Right = randomize();
+  // }
+
+  
+
+  // nxtleft = Left;
+  // nxtCenter = Center;
+  // nxtRight = Right;
+
+  // while ( nxtImg.includes(Left) || nxtImg.includes(Center) || nxtImg.includes(Right)) {
+  //   Left = randomize();
+  //   Center = randomize();
+  //   Right = randomize();
+  //  }
+
+
+   
+  
 
   leftImg.setAttribute("src", products[Left].img);
   centerImg.setAttribute("src", products[Center].img);
-  rightImg.setAttribute("src", products[right].img);
+  rightImg.setAttribute("src", products[Right].img);
 
   leftImg.setAttribute("title", products[Left].Name);
   centerImg.setAttribute("title", products[Center].Name);
-  rightImg.setAttribute("title", products[right].Name);
+  rightImg.setAttribute("title", products[Right].Name);
   products[Left].views++;
   products[Center].views++;
-  products[right].views++;
+  products[Right].views++;
 }
 
 renderAlbum();
@@ -100,7 +175,7 @@ function clicks(event) {
     } else if (clicked === "Center") {
       products[Center].votes++;
     } else if (clicked === "Right") {
-      products[right].votes++;
+      products[Right].votes++;
     }
 
     renderAlbum();
@@ -114,10 +189,14 @@ function clicks(event) {
         let li = document.createElement("li");
         li.textContent = `${products[i].Name} has ${products[i].votes} votes and was seen ${products[i].views} times.`;
         data.appendChild(li);
+        viewsAr.push(products[i].views);
+        votesAr.push(products[i].votes);
       }
       leftImg.removeEventListener("click", clicks);
       centerImg.removeEventListener("click", clicks);
       rightImg.removeEventListener("click", clicks);
+
+      chartShow();
     }
 
     btn2.onclick = show; //  toggle
@@ -125,12 +204,38 @@ function clicks(event) {
   round++;
 }
 
-// let emam; 
-// let emamfun = function () {
-//    let emam = 2;
-//    console.log(emam);
-// }
+function chartShow() {
+  let ctx = document.getElementById("myChart");
+  let myChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: productNames,
+      datasets: [
+        {
+          label: "Votes",
+          data: votesAr,
+          backgroundColor: ["rgb(211, 32, 32)"],
+          borderColor: ["rgba(255, 99, 132, 1)"],
+          borderWidth: 0,
+        },
+        {
+          label: "views",
+          data: viewsAr,
+          backgroundColor: ["rgb(71, 99, 255)"],
+          borderColor: ["rgba(155, 199, 120, 0.2)"],
+          borderWidth: 0,
+        },
+      ],
+    },
 
-// console.log(emam);
-// emamfun();
-// console.log(emam);
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    },
+  });
+}
+
+

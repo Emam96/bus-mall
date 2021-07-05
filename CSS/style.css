@@ -7,9 +7,9 @@
     /* border: solid tomato; */
     text-align: center;
     font-family: sans-serif;
-    height: 57rem;
+    height: auto;
     user-select: none;
-    width: 90%;
+    width: 95%;
     margin: 3rem auto;
     /* background-image: url(https://images.squarespace-cdn.com/content/v1/5bfe852a96d4555a304afa99/1552653772344-W50SCC925LP1JD9WTPWZ/Background+Colour+Purist+Blue.jpg?format=2500w); */
     box-shadow: 0px 5px 12px #00000047;
@@ -93,4 +93,11 @@ ul li {
     padding-top: 0.5rem;
     color: #e23c1f;
 
+}
+
+
+#myChart {
+    /* border: solid tomato; */
+    
+   width: 95%;
 }
