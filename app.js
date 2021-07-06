@@ -57,7 +57,8 @@ const btn2 = document.querySelector("button");
 let viewsAr = [];
 let votesAr = [];
 let products = [];
-let    nxtImg = [];
+Product.storage = [];
+let nxtImg = [];
 let round = 1;
 let maxRounds = 25;
 
@@ -69,63 +70,27 @@ let nxtleft;
 let nxtCenter;
 let nxtRight;
 
+function pushToLocalStorage() {
 
+  let codedData = JSON.stringify(Product.storage);
+  localStorage.setItem("data", codedData);
 
-function pushToStorge() {
-
- let codedData = JSON.stringify(products); 
- let codedVoteData = JSON.stringify(votesAr);
- let codedViewData = JSON.stringify(viewsAr);
- let codednxtData = JSON.stringify(nxtImg);
-
-//  console.log(codedData);
-  
-  localStorage.setItem('data', codedData);
-  localStorage.setItem('votedata', codedVoteData);
-  localStorage.setItem('viewdata', codedViewData);
-  localStorage.setItem('nxtdata', codednxtData);
-  
 }
 
 
+function retryFromLocalStorage() {
 
-function retrieveFromStorge() {
-
-  let retrieveData = localStorage.getItem('data');
-  let retrieveVoteData = localStorage.getItem('votedata');
-  let retrieveViewData = localStorage.getItem('viewdata');
-  let retrieveNxtData = localStorage.getItem('nxtdata');
-
-  let decodedData = JSON.parse(retrieveData);
-  let decodedVoteData = JSON.parse(retrieveVoteData);
-  let decodedViewData = JSON.parse(retrieveViewData);
-  let decodedNxtData = JSON.parse(retrieveNxtData);
-  
-  // console.log(decodedData);
-  
+  let retryData = localStorage.getItem("data");
+  let decodedData = JSON.parse(retryData)
   if (decodedData !== null) {
-    products = decodedData;
-    renderAlbum();
-}
-if (decodedVoteData !== null) {
-  votesAr = decodedVoteData;
-  renderAlbum();
-}
-if (decodedViewData !== null) {
-  viewsAr = decodedViewData;
-  renderAlbum();
-}
+    for (let i = 0; i < decodedData.length; i++) {
+     
+      Product.storage[i].views = decodedData[i].views;
+      Product.storage[i].votes = decodedData[i].votes;
 
-if (decodedNxtData !== null) {
-  nxtImg = decodedNxtData;
-  renderAlbum();
-}
-
-
+    } }
 
 }
-retrieveFromStorge();
-
 
 
 
@@ -138,13 +103,17 @@ function Product(name) {
   this.votes = 0;
   this.views = 0;
   products.push(this);
-  pushToStorge();
+  Product.storage.push(this);
 }
+
+
+
 
 for (let i = 0; i < productSrs.length; i++) {
   // object maker
   new Product(productSrs[i]);
 }
+
 
 function randomize() {
   // random number maker
@@ -152,27 +121,32 @@ function randomize() {
   return Math.floor(Math.random() * products.length);
 }
 
-
-
-
 function renderAlbum() {
   // photo screen
-  
+
   Left = randomize();
   Center = randomize();
   Right = randomize();
-  
-  while (Center === Right || Left === Center || Left === Right || nxtImg.includes(Left) || nxtImg.includes(Center) || nxtImg.includes(Right) ) {
+
+  while (
+    Center === Right ||
+    Left === Center ||
+    Left === Right ||
+    nxtImg.includes(Left) ||
+    nxtImg.includes(Center) ||
+    nxtImg.includes(Right)
+  ) {
     Left = randomize();
     Center = randomize();
     Right = randomize();
   }
-   nxtImg = [];
+
+  nxtImg = [];
 
   nxtImg.push(Left);
   nxtImg.push(Center);
   nxtImg.push(Right);
-  
+
   leftImg.setAttribute("src", products[Left].img);
   centerImg.setAttribute("src", products[Center].img);
   rightImg.setAttribute("src", products[Right].img);
@@ -183,29 +157,17 @@ function renderAlbum() {
   products[Left].views++;
   products[Center].views++;
   products[Right].views++;
-  
 }
 
 renderAlbum();
-
-
-
 
 leftImg.addEventListener("click", clicks);
 centerImg.addEventListener("click", clicks);
 rightImg.addEventListener("click", clicks);
 
-
-
-
-
-
-
-
 function clicks(event) {
   // data screen
-  
-  event.preventDefault();
+  // data.innerHTML = '';
   if (round <= maxRounds) {
     let clicked = event.target.id;
     if (clicked === "Left") {
@@ -215,16 +177,13 @@ function clicks(event) {
     } else if (clicked === "Right") {
       products[Right].votes++;
     }
-   
     renderAlbum();
-    
   } else {
     function show() {
-      data.li = '';
       let h3 = document.createElement("h3");
       h3.textContent = "RESULTS";
       subt.appendChild(h3);
-      
+
       for (let i = 0; i < products.length; i++) {
         let li = document.createElement("li");
         li.textContent = `${products[i].Name} has ${products[i].votes} votes and was seen ${products[i].views} times.`;
@@ -232,37 +191,19 @@ function clicks(event) {
         viewsAr.push(products[i].views);
         votesAr.push(products[i].votes);
       }
-      
-      
-      
+
       leftImg.removeEventListener("click", clicks);
       centerImg.removeEventListener("click", clicks);
       rightImg.removeEventListener("click", clicks);
-     
-      chartShow();
       
+      pushToLocalStorage();
+      chartShow();
     }
-    
+
     btn2.onclick = show; //  toggle
-   
   }
   round++;
- 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -300,3 +241,5 @@ function chartShow() {
   });
 }
 
+
+retryFromLocalStorage();
