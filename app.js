@@ -69,6 +69,67 @@ let nxtleft;
 let nxtCenter;
 let nxtRight;
 
+
+
+function pushToStorge() {
+
+ let codedData = JSON.stringify(products); 
+ let codedVoteData = JSON.stringify(votesAr);
+ let codedViewData = JSON.stringify(viewsAr);
+ let codednxtData = JSON.stringify(nxtImg);
+
+//  console.log(codedData);
+  
+  localStorage.setItem('data', codedData);
+  localStorage.setItem('votedata', codedVoteData);
+  localStorage.setItem('viewdata', codedViewData);
+  localStorage.setItem('nxtdata', codednxtData);
+  
+}
+
+
+
+function retrieveFromStorge() {
+
+  let retrieveData = localStorage.getItem('data');
+  let retrieveVoteData = localStorage.getItem('votedata');
+  let retrieveViewData = localStorage.getItem('viewdata');
+  let retrieveNxtData = localStorage.getItem('nxtdata');
+
+  let decodedData = JSON.parse(retrieveData);
+  let decodedVoteData = JSON.parse(retrieveVoteData);
+  let decodedViewData = JSON.parse(retrieveViewData);
+  let decodedNxtData = JSON.parse(retrieveNxtData);
+  
+  // console.log(decodedData);
+  
+  if (decodedData !== null) {
+    products = decodedData;
+    renderAlbum();
+}
+if (decodedVoteData !== null) {
+  votesAr = decodedVoteData;
+  renderAlbum();
+}
+if (decodedViewData !== null) {
+  viewsAr = decodedViewData;
+  renderAlbum();
+}
+
+if (decodedNxtData !== null) {
+  nxtImg = decodedNxtData;
+  renderAlbum();
+}
+
+
+
+}
+retrieveFromStorge();
+
+
+
+
+
 function Product(name) {
   // constructor
 
@@ -77,6 +138,7 @@ function Product(name) {
   this.votes = 0;
   this.views = 0;
   products.push(this);
+  pushToStorge();
 }
 
 for (let i = 0; i < productSrs.length; i++) {
@@ -95,59 +157,22 @@ function randomize() {
 
 function renderAlbum() {
   // photo screen
-
+  
   Left = randomize();
   Center = randomize();
   Right = randomize();
-
   
-   
-
   while (Center === Right || Left === Center || Left === Right || nxtImg.includes(Left) || nxtImg.includes(Center) || nxtImg.includes(Right) ) {
     Left = randomize();
     Center = randomize();
     Right = randomize();
   }
-
    nxtImg = [];
 
   nxtImg.push(Left);
   nxtImg.push(Center);
   nxtImg.push(Right);
-
-
-  // while (
-  //   nxtleft === Left ||
-  //   nxtleft === Center ||
-  //   nxtleft === Right ||
-  //   nxtCenter === Left ||
-  //   nxtCenter === Center ||
-  //   nxtCenter === Right ||
-  //   nxtRight === Left ||
-  //   nxtRight === Center ||
-  //   nxtRight === Right
-  // ) {
-  //   Left = randomize();
-  //   Center = randomize();
-  //   Right = randomize();
-  // }
-
   
-
-  // nxtleft = Left;
-  // nxtCenter = Center;
-  // nxtRight = Right;
-
-  // while ( nxtImg.includes(Left) || nxtImg.includes(Center) || nxtImg.includes(Right)) {
-  //   Left = randomize();
-  //   Center = randomize();
-  //   Right = randomize();
-  //  }
-
-
-   
-  
-
   leftImg.setAttribute("src", products[Left].img);
   centerImg.setAttribute("src", products[Center].img);
   rightImg.setAttribute("src", products[Right].img);
@@ -158,16 +183,29 @@ function renderAlbum() {
   products[Left].views++;
   products[Center].views++;
   products[Right].views++;
+  
 }
 
 renderAlbum();
+
+
+
 
 leftImg.addEventListener("click", clicks);
 centerImg.addEventListener("click", clicks);
 rightImg.addEventListener("click", clicks);
 
+
+
+
+
+
+
+
 function clicks(event) {
   // data screen
+  
+  event.preventDefault();
   if (round <= maxRounds) {
     let clicked = event.target.id;
     if (clicked === "Left") {
@@ -177,14 +215,16 @@ function clicks(event) {
     } else if (clicked === "Right") {
       products[Right].votes++;
     }
-
+   
     renderAlbum();
+    
   } else {
     function show() {
+      data.li = '';
       let h3 = document.createElement("h3");
       h3.textContent = "RESULTS";
       subt.appendChild(h3);
-
+      
       for (let i = 0; i < products.length; i++) {
         let li = document.createElement("li");
         li.textContent = `${products[i].Name} has ${products[i].votes} votes and was seen ${products[i].views} times.`;
@@ -192,17 +232,39 @@ function clicks(event) {
         viewsAr.push(products[i].views);
         votesAr.push(products[i].votes);
       }
+      
+      
+      
       leftImg.removeEventListener("click", clicks);
       centerImg.removeEventListener("click", clicks);
       rightImg.removeEventListener("click", clicks);
-
+     
       chartShow();
+      
     }
-
+    
     btn2.onclick = show; //  toggle
+   
   }
   round++;
+ 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function chartShow() {
   let ctx = document.getElementById("myChart");
@@ -237,5 +299,4 @@ function chartShow() {
     },
   });
 }
-
 
