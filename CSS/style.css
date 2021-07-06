@@ -20,6 +20,7 @@ h1 {
 font-size: 2.5pc;
 font-weight: bold;
 color: #00000091;
+/* text-shadow: 0px 5px 15px #0000005e; */
 
 }
 
@@ -96,8 +97,28 @@ ul li {
 }
 
 
-#myChart {
+#canvastable {
     /* border: solid tomato; */
-    
-   width: 95%;
+    /* box-shadow: 0px 5px 12px #00000047; */
+    width: auto;
+    margin:  auto;
+    padding: 7rem;
 }
+
+canvas {
+    box-shadow: 0px 5px 12px #00000047;
+    background-color: hsla(128, 73%, 63%, 0.596);
+}
+
+#counterplace {
+      /* border: solid tomato; */
+      display: inline-block;
+     float: left; 
+     margin-left: 3rem;
+     margin-top: -4rem; 
+    font-size: 4pc;
+    font-weight: bolder;
+    color: #ff6347;
+    text-shadow: 5px 5px 7px #0000005e;
+    
+    }

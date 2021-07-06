@@ -45,6 +45,7 @@ let productNames = [
 ];
 
 let sheet = document.getElementById("sheet");
+let counterT = document.getElementById("counter");
 let data = document.getElementById("Data");
 let subtitle = document.getElementById("subtitle");
 let subt = document.getElementById("subtitle");
@@ -61,6 +62,7 @@ Product.storage = [];
 let nxtImg = [];
 let round = 1;
 let maxRounds = 25;
+let counter = 26;
 
 let Left;
 let Center;
@@ -71,28 +73,31 @@ let nxtCenter;
 let nxtRight;
 
 function pushToLocalStorage() {
-
   let codedData = JSON.stringify(Product.storage);
   localStorage.setItem("data", codedData);
-
 }
-
 
 function retryFromLocalStorage() {
-
   let retryData = localStorage.getItem("data");
-  let decodedData = JSON.parse(retryData)
+  let decodedData = JSON.parse(retryData);
   if (decodedData !== null) {
     for (let i = 0; i < decodedData.length; i++) {
-     
       Product.storage[i].views = decodedData[i].views;
       Product.storage[i].votes = decodedData[i].votes;
-
-    } }
-
+    }
+  }
 }
 
 
+function counterFun() {
+counter--;
+
+  let h4 =  document.getElementById("counterplace");
+  
+  h4.innerHTML = counter;
+  // counterT.appendChild(h4);
+  
+}
 
 
 function Product(name) {
@@ -106,14 +111,10 @@ function Product(name) {
   Product.storage.push(this);
 }
 
-
-
-
 for (let i = 0; i < productSrs.length; i++) {
   // object maker
   new Product(productSrs[i]);
 }
-
 
 function randomize() {
   // random number maker
@@ -143,6 +144,8 @@ function renderAlbum() {
 
   nxtImg = [];
 
+  counterFun();
+
   nxtImg.push(Left);
   nxtImg.push(Center);
   nxtImg.push(Right);
@@ -157,6 +160,7 @@ function renderAlbum() {
   products[Left].views++;
   products[Center].views++;
   products[Right].views++;
+  
 }
 
 renderAlbum();
@@ -167,7 +171,9 @@ rightImg.addEventListener("click", clicks);
 
 function clicks(event) {
   // data screen
-  // data.innerHTML = '';
+  
+  // counterT.removeChild(h4);
+
   if (round <= maxRounds) {
     let clicked = event.target.id;
     if (clicked === "Left") {
@@ -195,17 +201,16 @@ function clicks(event) {
       leftImg.removeEventListener("click", clicks);
       centerImg.removeEventListener("click", clicks);
       rightImg.removeEventListener("click", clicks);
-      
+
       pushToLocalStorage();
       chartShow();
     }
 
     btn2.onclick = show; //  toggle
   }
+  
   round++;
 }
-
-
 
 function chartShow() {
   let ctx = document.getElementById("myChart");
@@ -240,6 +245,5 @@ function chartShow() {
     },
   });
 }
-
 
 retryFromLocalStorage();
