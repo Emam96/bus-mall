@@ -72,6 +72,8 @@ let nxtleft;
 let nxtCenter;
 let nxtRight;
 
+
+///////////////////////////////////////////////////// LOCAL STORAGE
 function pushToLocalStorage() {
   let codedData = JSON.stringify(Product.storage);
   localStorage.setItem("data", codedData);
@@ -87,7 +89,7 @@ function retryFromLocalStorage() {
     }
   }
 }
-
+/////////////////////////////////////////////////////////// COUNTER
 
 function counterFun() {
 counter--;
@@ -99,7 +101,7 @@ counter--;
   
 }
 
-
+////////////////////////////////////////////////////////// CONSTRUCTER
 function Product(name) {
   // constructor
 
@@ -115,13 +117,13 @@ for (let i = 0; i < productSrs.length; i++) {
   // object maker
   new Product(productSrs[i]);
 }
-
+/////////////////////////////////////////////////////////// RANDOM NUMBER GENERATOR
 function randomize() {
   // random number maker
 
   return Math.floor(Math.random() * products.length);
 }
-
+////////////////////////////////////////////////////////////// THE PICTURES SHOWCASE
 function renderAlbum() {
   // photo screen
 
@@ -164,7 +166,7 @@ function renderAlbum() {
 }
 
 renderAlbum();
-
+///////////////////////////////////////////////////////////////////////// EVENT
 leftImg.addEventListener("click", clicks);
 centerImg.addEventListener("click", clicks);
 rightImg.addEventListener("click", clicks);
@@ -211,6 +213,7 @@ function clicks(event) {
   
   round++;
 }
+///////////////////////////////////////////////////////////////////////// CHART
 
 function chartShow() {
   let ctx = document.getElementById("myChart");
